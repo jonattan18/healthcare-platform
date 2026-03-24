@@ -1,9 +1,11 @@
 import { useState, type FormEvent } from 'react';
-import { Eye, EyeOff, Loader2, ArrowRight } from 'lucide-react';
+import { Eye, EyeOff, Loader2, ArrowRight, Sun, Moon } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
+import { useThemeStore } from '../store/themeStore';
 
 export default function Login() {
   const { login, signup, loading, error, clearError } = useAuthStore();
+  const { dark, toggle: toggleTheme } = useThemeStore();
   const [isSignUp, setIsSignUp] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -143,6 +145,26 @@ export default function Login() {
 
       {/* Right — form */}
       <div className="flex-1 flex items-center justify-center p-6 sm:p-12 relative z-10">
+        {/* Theme toggle FAB */}
+        <button
+          onClick={toggleTheme}
+          className="absolute top-5 right-5 w-10 h-10 rounded-xl bg-card border border-sand/60 flex items-center justify-center cursor-pointer transition-all duration-300 hover:shadow-[var(--shadow-card-hover)] hover:-translate-y-0.5 active:translate-y-0 group z-20"
+          title={dark ? 'Switch to light mode' : 'Switch to dark mode'}
+        >
+          <div className="relative w-[18px] h-[18px]">
+            <Sun
+              className={`absolute inset-0 w-[18px] h-[18px] text-amber-500 transition-all duration-300 ${
+                dark ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-75'
+              }`}
+            />
+            <Moon
+              className={`absolute inset-0 w-[18px] h-[18px] text-ink-muted group-hover:text-ink transition-all duration-300 ${
+                dark ? 'opacity-0 rotate-90 scale-75' : 'opacity-100 rotate-0 scale-100'
+              }`}
+            />
+          </div>
+        </button>
+
         <div className="w-full max-w-[440px]">
           {/* Mobile logo */}
           <div className="lg:hidden flex items-center gap-3 mb-14 animate-fade-up">
